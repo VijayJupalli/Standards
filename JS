@@ -60,13 +60,13 @@
     • Here in a for-in loop, the order (the sequence) of listing the properties is not guaranteed.
     • Technically, you can also use for-in to loop over arrays ( as arrays are objects), but it’s not recommended.
     • To avoid having the object methods to show up when enumerating man, you need to call hasOwnProperty()
-    var i, man = {
-    		p1: "",
-    		p1: "",
+    var py, custObj = {
+    		p1: "",p2: "",p3: "",p4: "",p5: "",
+    		m1: function(){ -- }
     	};
-     for (var i in man) {
-	 if (man.hasOwnProperty(i)) { // filter outs the man object methods
-      	console.log(i, ":", man[i]);
+     for (py in custObj) {
+	 if (custObj.hasOwnProperty(py)) { // filter outs the custObj object methods
+      	console.log(i, ":", custObj[py]);
    	}
      } 
  > Embedding JavaScript
