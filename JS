@@ -48,8 +48,27 @@
 
  > The continue statement will break the current loop and continue with the next value.
 
- > The for...in statement loops through the elements of an array or through the properties of an object.
-
+ > In "for" loops you iterate over arrays or array-like objects such as arguments and HTMLCollection objects.
+   TODO's 
+    • Cache the length of the array or collections we are iterating over separatly.
+    • Use Single var pattern.
+    • replace "i++" with "i+=1", as "i++" is excessive trickiness so JSLint doesn't promote it.
+     var i,  max = myarray.length; 
+     for (i = 0; i < max; i+=1) {  --  }
+     
+ > "for-in" loops should be used to iterate over nonarray objects. Looping with for-in is also called enumeration.
+    • Here in a for-in loop, the order (the sequence) of listing the properties is not guaranteed.
+    • Technically, you can also use for-in to loop over arrays ( as arrays are objects), but it’s not recommended.
+    • To avoid having the object methods to show up when enumerating man, you need to call hasOwnProperty()
+    var i, man = {
+    		p1: "",
+    		p1: "",
+    	};
+     for (var i in man) {
+	 if (man.hasOwnProperty(i)) { // filter outs the man object methods
+      	console.log(i, ":", man[i]);
+   	}
+     } 
  > Embedding JavaScript
   • Do not embed JavaScript in HTML without a good technical reason. HTML/JSP files do not get minified and JSPs do not get cached so embedded code adds significantly to page weight. It is considered bad practice to embed JavaScript. Applying the principle of separation of concerns means that content such as CSS, JavaScript and HTML (our concerns) should be kept apart (separation).
   • Do not use href="javascript:…" unless there is a technical reason to do so. Instead use the method
