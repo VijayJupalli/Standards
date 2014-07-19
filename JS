@@ -48,10 +48,10 @@
   • Filename should match that of the namespaced object it contains.
   • File extension of ‘.js’
   e.g. 
-  ✓ alertspanel.js
-  ✕ alertsPanel.js
-  ✕ alerts_panel.js
-  ✕ tui_alertspanel.js
+  ✓ customwidget.js
+  ✕ customwWdget.js
+  ✕ custom_widget.js
+  ✕ root_customwidget.js
   
  > In JavaScript object is just a special kind of data. An object has properties and methods. Properties are the values associated with an object. We are using the length property of the String object to return the number of characters in a string.
 
@@ -69,19 +69,20 @@
  > The Navigator object contains all information about the visitor's browser.
 
  > Programming Practices
+ 
   # Namespaces
   • All global objects, functions and variables must be namespaced. This is to minimise use of the global namespace and reduce the chance of name conflicts.
   • Functions should be grouped into namespaced ‘objects’.
-  • Object members should be accessed with dot notation where possible. This helps improve readability.
+  • Object property should be accessed with dot notation where possible. This helps improve readability.
   e.g.
-   ✓ Object.member
-   ✕ Object["member"]
+   ✓ Object.property 
+   ✕ Object["property"]
    
   # Equality
   Use the identity operator === instead of == and !== instead of != as they ensure type safety. == and != perform type coercion.
   e.g.
-  0 == "0" is true
-  0 === "0" is false
+  12 == "12" is true   // checks only data
+  11 === "11" is false // strict equal - type and data
   # Parentheses
   • Use parentheses liberally in expressions involving mixed operators to avoid operator precedence problems and to improve readability.
   e.g. 
@@ -115,11 +116,4 @@
    i.e. parseInt("0112") would result in 74.
   e.g.
    ✓ myInt = parseInt(myString, 10);
-  
-  # Augmentation
-  • Avoid augmentation of the built in types. For instance, altering the base Object means you tamper with the whole foundation of the language and can have unpredictable results. However, if something is in the JavaScript specification but not in a particular browser then augmentation is not so bad, but ensure by putting checks in place you only add the method to those browsers that do not have it as that will give the best performance.
-  • Where possible create utility functions instead.
-  
  
-
-
