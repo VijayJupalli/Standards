@@ -1,4 +1,32 @@
 
+	Do not forget about the importance of capitals in JavaScript! The word function must be written in lowercase letters, otherwise a JavaScript error occurs! Also note that you must call a function with the exact same capitals as in the function name.
+
+	If you declare a variable within a function, the variable can only be accessed within that function. When you exit the function, the variable is destroyed. These variables are called local variables. You can have local variables with the same name in different functions, because each is recognized only by the function in which it is declared.
+
+
+	If you declare a variable outside a function, all the functions on your page can access it. The lifetime of these variables starts when they are declared, and ends when the page is closed.
+
+	The break statement will break the loop and continue executing the code that follows after the loop (if any).
+
+	The continue statement will break the current loop and continue with the next value.
+
+	The for...in statement loops through the elements of an array or through the properties of an object.
+
+	Note that throw is written in lowercase letters. Using uppercase letters will generate a JavaScript error!
+
+	JavaScript ignores extra spaces. You can add white space to your script to make it more readable. The following lines are equivalent.
+
+	JavaScript is casecensitive. A function named "myfunction" is not the same as "myFunction" and a variable named "myVar" is not the same as "myvar".
+
+	In JavaScript object is just a special kind of data. An object has properties and methods. Properties are the values associated with an object. We are using the length property of the String object to return the number of characters in a string.
+
+	Methods are the actions that can be performed on objects. We are using the toUpperCase () method of the String object to display a text in uppercase letters.
+
+	Math is not a constructor. All properties and methods of Math can be called by using Math as an object without creating it.
+
+	The Navigator object contains all information about the visitor's browser.
+
+
 Including JavaScript file
 <script src="filename.js" type="text/javascript"></script> 
 The attribute language is deprecated – do not use it.
