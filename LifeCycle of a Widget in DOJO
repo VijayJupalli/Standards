@@ -1,0 +1,149 @@
+
+
+
+LifeCycle of a Widget in DOJO
+
+
+
+
+Target readers : Dojo Developers
+Keywords 
+dojo, widget, life cycle, dijit
+Introduction
+Abstract:
+This document gives the web developers an idea regarding the lifecycle methods of a DOJO widget and the flow of execution of a widget lifecycle, so that a custom widget can be created easily.
+
+Let us start with understanding what is lifecycle of a typical widget.
+
+Lifecycle of a widget
+Lifecycle depicts different stages from beginning to end phase of any component. Lifecycle of a widget represents different phases a widget should undergo from initialization phase till the phase of destruction.
+For creating a widget in dojo, we can extend from dijit._Widget class. All the lifecycle methods of a widget are presented in dijit._Widget class. We can override the appropriate method according to our requirement. Given below are Lifecycle methods of a widget.
+
+
+	preamble():
+This method is called before the constructor of the widget is been invoked. This method gets the same parameter as the constructor. So if you need to modify the arguments before the constructor processes it, you can do it in this method.
+	constructor():
+Constructor method is called to do initialization of resources. It can be used for array initialization or any variable initialization.
+	postscript():
+This method is responsible for starting the instantiation of the widget. This method invokes the create method of the widget and passes the initialization parameters, attributes and DOM node of the widget as the parameter to the create method.
+	create():
+This method is responsible for calling postMixInProperties, buildRendering, postCreate methods one by one, with their corresponding parameters. The parameters passed to this method are the initialization parameters of the widget, attributes of the widget , DOM node of the widget. You can override the create method also. But it is not advisable to override this method.
+
+	 Mixing of Parameters into the widget instance:
+In this step attributes in the markup are mixed in to the widget instance. e.g: <Button id=”mybutton”>, here the id’s attribute value, mybutton will be assigned to the Button widget.
+
+	postMixInProperties():
+This method is invoked before the actual rendering of the widget happens. So this method can be used to add any changes to the widget before it is rendered or before creation of the DOM.
+	buildRendering():
+This method is used to fetch the given template for the widget, create nodes according to the template and hooking up events and assigning the end result to this.domNode. We have one more class, dijit_Templated which has a default implementation of buildRendering. If we want to customize the default implementation or if we are not inheriting dijit_Templated in our widget, then we can define buildRendering method to render the widget.
+	Applying setters:
+In this step the DOM is applied with all attributes given in the attribute map or if any custom setters are available, then those setters are applied on the DOM.
+	postCreate():
+This method is the main method of a custom widget, responsible for rendering it. With this method, child-widgets won’t be rendered. It is not advisable to do sizing calculations in this method, coz even though the widget is rendered it is not attached with the DOM in this stage. In this method any last minute customization can be added such as any custom attributes addition, before the widget is rendered.
+
+
+
+	startup():
+In this method proper creation of both Container widget, as well as the child-widget happens. This method can often be used for rendering layout widgets like BorderContainer, AccordianContianer, etc. startup method should call resize method, if the widget does JavaScript sizing. If the widget is created programmatically, then it is advisable to call startup method on it.
+	destroy():
+This method can be used to implement any tear down work to be done.
+To summarize, the order of invocation of the lifecycle methods will be as below:
+preamble()  constructor()  postscript()  create()  postMixInProperties()  buildRendering()  postCreate()  startup()  destroy()
+
+Additional methods:
+	resize():
+This method can be used to lay out the widget. The widgets that does JavaScript sizing should call this method. This method can be invoked from startup lifecycle method or by parent widgets such as dijit.layout.ContentPane.
+	this.inherited():
+This method is similar to super.method() in java. It is used to invoke the superclass method inside the overridden method. It is advisable to use this.inherited method inside the overridden method.
+Given below is the code for creating a custom widget to say HelloWorld.
+dojo.provide("hello.HelloWidget");
+dojo.require("dijit._Widget");
+dojo.require("dijit._Templated");
+dojo.declare("hello.HelloWidget",
+    [dijit._Widget, dijit._Templated],
+    {
+        greeting : "",
+
+        //Provide the template string inline 
+        templateString : "<div class='hello_class'>${greeting}</div>",      
+         constructor:function()
+        {
+            console.log("Inside Constructor");
+        },
+        postCreate:function()
+        {
+            console.log("Inside postCreate");
+        },
+        postscript:function()
+        {
+            console.log("Inside postscript");
+        },
+        create:function()
+        {
+            console.log("Inside Create");
+        },
+        preamble:function()
+        {
+            console.log("Inside preamble");
+        },
+        postMixInProperties:function()
+        {
+            console.log("Inside postMixInProperties");
+        } ,
+        buildRendering:function()
+        {
+            console.log("Inside buildRendering");
+        },
+        startup:function()
+        {
+            console.log("Inside startup");
+        },
+        destroy:function()
+        {
+            console.log("Inside startup");
+        }
+    }
+);
+
+In the above code I have overridden all the life cycle methods of the _Widget class.
+Place this code inside the folder “hello” as “HelloWidget.js” file.
+To use the custom widget find below the code for the HTML page.
+<html>
+  <head>
+    <link rel="stylesheet" href="dojo-release-1.5.0/dijit/themes/claro/claro.css" />
+    <script type="text/javascript" src="dojo-release-1.5.0/dojo/dojo.js" djConfig="parseOnLoad:true"></script>
+	<script>
+        dojo.registerModulePath("hello", "/web/hello");
+        dojo.require("hello.HelloWidget");
+        dojo.ready(function(){
+			myWidget = new hello.HelloWidget({
+				        greeting: "Hello World!!!!"},
+                        "hello");
+            myWidget.startup();
+		});
+           
+        </script>
+    </head>
+    <body class="claro">
+       
+<div id="hello"></div> </html>
+
+I am using dojo 1.5 for this demo. Find below is the output for the above code:
+ 
+Please find below the Firebug console log. See here the order of invocation of the life cycle methods. 
+
+
+From the above diagram we can see that order of invocation is 
+preambleconstructorpostscriptstartup. 
+postscript method in turn calls the create method and create method in turn calls the postMixInProperties method, buildRendering method, postCreate method, which is not logged in the firebug, since our example widget overrides the postscript method.
+This example helps in better understanding on the lifecycle of a widget in Dojo.
+
+
+
+
+Reference(s)
+1. http://dojotoolkit.org/reference-guide/dijit/_Widget.html
+2. http://www.java2s.com/Open-Source/Javascript/UI-Library/dojo/src/dijit/_Widget.js.htm
+3.http://ofps.oreilly.com/titles/9780596516482/dijit_anatomy_and_lifecycle.html#the_widget_lifecycle 
+
+
