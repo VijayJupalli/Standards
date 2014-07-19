@@ -1,5 +1,5 @@
 
-Including JavaScript
+Including JavaScript file
 •	<script src="filename.js" type="text/javascript"></script> 
 •	The attribute language is deprecated – do not use it.
 
@@ -9,13 +9,11 @@ Embedding JavaScript
 • Do not use href="javascript:…" unless there is a technical reason to do so. Instead use the method
 
   $('#target').click(function() {
-  alert('Handler for .click() called.');
+  	//logic for click event
   });
 
 
 • Do not wrap the content of script tags with HTML comments. This is to support older browsers and no longer necessary.
-
-
 
 e.g.
 	<script>
@@ -28,9 +26,10 @@ Variable Declarations
 •	All variables must be declared with ‘var’ otherwise the language assumes the variable is global.
 •	There must be no global variables, only member variables.
 
-File Structure
+
 File Content
 •	Files MUST contain only one namespaced object.
+
 File Name
 •	Lowercase with no underscores or prefix. It should not start with ‘tui_’ etc.
 •	No separator between words.
