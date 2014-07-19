@@ -1,130 +1,125 @@
 
-	Do not forget about the importance of capitals in JavaScript! The word function must be written in lowercase letters, otherwise a JavaScript error occurs! Also note that you must call a function with the exact same capitals as in the function name.
+ > Do not forget about the importance of capitals in JavaScript! The word function must be written in lowercase letters, otherwise a JavaScript error occurs! Also note that you must call a function with the exact same capitals as in the function name.
 
-	If you declare a variable within a function, the variable can only be accessed within that function. When you exit the function, the variable is destroyed. These variables are called local variables. You can have local variables with the same name in different functions, because each is recognized only by the function in which it is declared.
+ > If you declare a variable within a function, the variable can only be accessed within that function. When you exit the function, the variable is destroyed. These variables are called local variables. You can have local variables with the same name in different functions, because each is recognized only by the function in which it is declared.
 
+ > Including JavaScript file
+  <script src="filename.js" type="text/javascript"></script> 
+  The attribute language is deprecated – do not use it.
 
-	If you declare a variable outside a function, all the functions on your page can access it. The lifetime of these variables starts when they are declared, and ends when the page is closed.
-
-	The break statement will break the loop and continue executing the code that follows after the loop (if any).
-
-	The continue statement will break the current loop and continue with the next value.
-
-	The for...in statement loops through the elements of an array or through the properties of an object.
-
-	Note that throw is written in lowercase letters. Using uppercase letters will generate a JavaScript error!
-
-	JavaScript ignores extra spaces. You can add white space to your script to make it more readable. The following lines are equivalent.
-
-	JavaScript is casecensitive. A function named "myfunction" is not the same as "myFunction" and a variable named "myVar" is not the same as "myvar".
-
-	In JavaScript object is just a special kind of data. An object has properties and methods. Properties are the values associated with an object. We are using the length property of the String object to return the number of characters in a string.
-
-	Methods are the actions that can be performed on objects. We are using the toUpperCase () method of the String object to display a text in uppercase letters.
-
-	Math is not a constructor. All properties and methods of Math can be called by using Math as an object without creating it.
-
-	The Navigator object contains all information about the visitor's browser.
-
-
-Including JavaScript file
-<script src="filename.js" type="text/javascript"></script> 
-The attribute language is deprecated – do not use it.
-
-
-Embedding JavaScript
-• Do not embed JavaScript in HTML without a good technical reason. HTML/JSP files do not get minified and JSPs do not get cached so embedded code adds significantly to page weight. It is considered bad practice to embed JavaScript. Applying the principle of separation of concerns means that content such as CSS, JavaScript and HTML (our concerns) should be kept apart (separation).
-• Do not use href="javascript:…" unless there is a technical reason to do so. Instead use the method
-  $('#target').click(function() {
-  	//logic for click event
-  });
-• Do not wrap the content of script tags with HTML comments. This is to support older browsers and no longer necessary.
-
-Variable Declarations
-•All variables must be declared with ‘var’ otherwise the language assumes the variable is global.
-•There must be no global variables, only member variables.
-
-
-File Content
-•Files MUST contain only one namespaced object.
-
-File Name
-• Lowercase with no underscores or prefix. It should not start with ‘tui_’ etc.
-• No separator between words.
-• Filename should match that of the namespaced object it contains.
-• File extension of ‘.js’
-
-e.g. 
-✓ alertspanel.js
-✕ alertsPanel.js
-✕ alerts_panel.js
-✕ tui_alertspanel.js
-
-File Location
-• The namespace of the object contained in the file determines the file location.
-e.g.
-✓ root.ui.CustWidget would be found at
- js/ui/custwidget.js
-
-
-Programming Practices
-Namespaces
-• All global objects, functions and variables must be namespaced. This is to minimise use of the global namespace and reduce the chance of name conflicts.
-• Functions should be grouped into namespaced ‘objects’.
-• Object members should be accessed with dot notation where possible. This helps improve readability.
-e.g.
- ✓ Object.member
- ✕ Object["member"]
+ > If you declare a variable outside a function, all the functions on your page can access it. The lifetime of these variables starts when they are declared, and ends when the page is closed.
  
-Equality
-Use the identity operator === instead of == and !== instead of != as they ensure type safety. == and != perform type coercion.
-e.g.
-0 == "0" is true
-0 === "0" is false
-Parentheses
-• Use parentheses liberally in expressions involving mixed operators to avoid operator precedence problems and to improve readability.
-e.g. 
- ✓ if ((a == b) && (c == d))
- ✓ total = subtotal + (+el.value);
- ✕ if (a == b && c == d)
- ✕ total = subtotal + +el.value; 
+  # Detecting Browser Functionality
+  • Detect the availability of browser functionalities you desire to use rather than relying on user-agent strings. This helps improve future maintainability as new functionality becomes standard across different browser platforms.
+  e.g. 
+   ✓ if (typeof window.onorientation != "undefined")
+   ✕ if (IE6) 
 
-• If an expression containing a binary operator appears before the ? in the ternary ?: operator, it should be parenthesized.
-e.g.
- ✓ (x >= 0) ? x : -x;
+ > The break statement will break the loop and continue executing the code that follows after the loop (if any).
 
-Anonymous functions should be enclosed in brackets when they are executed immediately.
-e.g.
- ✓ util.Anony = (function() { //logic })();
- ✕ util.Anony = function() { //logic  }();  
+ > The continue statement will break the current loop and continue with the next value.
 
-XML/HTTP Requests
-• Do not use synchronous requests. They may block the UI and tasks such as the live streaming of prices.
-• Requests must include error checking for failed requests.
-• Indicate to the user that an asynchronous server request is in progress unless the call is not the result of user interaction.
+ > The for...in statement loops through the elements of an array or through the properties of an object.
 
-eval
-• Do not use eval(). For JSON operations use the Yahoo method jQuery.parse()  
+ > Embedding JavaScript
+  • Do not embed JavaScript in HTML without a good technical reason. HTML/JSP files do not get minified and JSPs do not get cached so embedded code adds significantly to page weight. It is considered bad practice to embed JavaScript. Applying the principle of separation of concerns means that content such as CSS, JavaScript and HTML (our concerns) should be kept apart (separation).
+  • Do not use href="javascript:…" unless there is a technical reason to do so. Instead use the method
+    $('#target').click(function() {
+    	//logic for click event
+    });
+  • Do not wrap the content of script tags with HTML comments. This is to support older browsers and no longer necessary.
 
-setTimeout, setInterval
-• Only pass in functions to setTimeout and setInterval. Do not use strings as these are eval’d.
+ > Variable Declarations
+  •All variables must be declared with ‘var’ otherwise the language assumes the variable is global.
+  •There must be no global variables, only member variables.
 
-parseInt
-• Supply a base when using parseInt. This ensures there are no unexpected conversion errors. Without a base of 10, strings prefixed with 0x will be treated as hex and those with a leading 0 treated as octal
- i.e. parseInt("0112") would result in 74.
-e.g.
- ✓ myInt = parseInt(myString, 10);
+ > Note that throw is written in lowercase letters. Using uppercase letters will generate a JavaScript error!
 
-Augmentation
-• Avoid augmentation of the built in types. For instance, altering the base Object means you tamper with the whole foundation of the language and can have unpredictable results. However, if something is in the JavaScript specification but not in a particular browser then augmentation is not so bad, but ensure by putting checks in place you only add the method to those browsers that do not have it as that will give the best performance.
-• Where possible create utility functions instead.
+ > JavaScript ignores extra spaces. You can add white space to your script to make it more readable. The following lines are equivalent.
 
+ > JavaScript is casecensitive. A function named "myfunction" is not the same as "myFunction" and a variable named "myVar" is not the same as "myvar".
 
-Detecting Browser Functionality
-• Detect the availability of browser functionalities you desire to use rather than relying on user-agent strings. This helps improve future maintainability as new functionality becomes standard across different browser platforms.
-e.g. 
- ✓ if (typeof window.onorientation != "undefined")
- ✕ if (IE6) 
+ > File Content
+  • Files MUST contain only one namespaced object.
 
+ > File Name
+  • Lowercase with no underscores or prefix. It should not start with ‘tui_’ etc.
+  • No separator between words.
+  • Filename should match that of the namespaced object it contains.
+  • File extension of ‘.js’
+  e.g. 
+  ✓ alertspanel.js
+  ✕ alertsPanel.js
+  ✕ alerts_panel.js
+  ✕ tui_alertspanel.js
+  
+ > In JavaScript object is just a special kind of data. An object has properties and methods. Properties are the values associated with an object. We are using the length property of the String object to return the number of characters in a string.
+
+ > Methods are the actions that can be performed on objects. We are using the toUpperCase () method of the String object to display a text in uppercase letters.
+
+  
+ > File Location
+  • The namespace of the object contained in the file determines the file location.
+  e.g.
+  ✓ root.ui.CustWidget would be found at
+   js/ui/custwidget.js
+
+ > Math is not a constructor. All properties and methods of Math can be called by using Math as an object without creating it.
+
+ > The Navigator object contains all information about the visitor's browser.
+
+ > Programming Practices
+  # Namespaces
+  • All global objects, functions and variables must be namespaced. This is to minimise use of the global namespace and reduce the chance of name conflicts.
+  • Functions should be grouped into namespaced ‘objects’.
+  • Object members should be accessed with dot notation where possible. This helps improve readability.
+  e.g.
+   ✓ Object.member
+   ✕ Object["member"]
+   
+  # Equality
+  Use the identity operator === instead of == and !== instead of != as they ensure type safety. == and != perform type coercion.
+  e.g.
+  0 == "0" is true
+  0 === "0" is false
+  # Parentheses
+  • Use parentheses liberally in expressions involving mixed operators to avoid operator precedence problems and to improve readability.
+  e.g. 
+   ✓ if ((a == b) && (c == d))
+   ✓ total = subtotal + (+el.value);
+   ✕ if (a == b && c == d)
+   ✕ total = subtotal + +el.value; 
+  
+  • If an expression containing a binary operator appears before the ? in the ternary ?: operator, it should be parenthesized.
+  e.g.
+   ✓ (x >= 0) ? x : -x;
+  
+  # Anonymous functions should be enclosed in brackets when they are executed immediately.
+  e.g.
+   ✓ util.Anony = (function() { //logic })();
+   ✕ util.Anony = function() { //logic  }();  
+  
+  # XML/HTTP Requests
+  • Do not use synchronous requests. They may block the UI and tasks such as the live streaming of prices.
+  • Requests must include error checking for failed requests.
+  • Indicate to the user that an asynchronous server request is in progress unless the call is not the result of user interaction.
+  
+  # eval
+  • Do not use eval(). For JSON operations use the Yahoo method jQuery.parse()  
+  
+  # setTimeout, setInterval
+  • Only pass in functions to setTimeout and setInterval. Do not use strings as these are eval’d.
+  
+  # parseInt
+  • Supply a base when using parseInt. This ensures there are no unexpected conversion errors. Without a base of 10, strings prefixed with 0x will be treated as hex and those with a leading 0 treated as octal
+   i.e. parseInt("0112") would result in 74.
+  e.g.
+   ✓ myInt = parseInt(myString, 10);
+  
+  # Augmentation
+  • Avoid augmentation of the built in types. For instance, altering the base Object means you tamper with the whole foundation of the language and can have unpredictable results. However, if something is in the JavaScript specification but not in a particular browser then augmentation is not so bad, but ensure by putting checks in place you only add the method to those browsers that do not have it as that will give the best performance.
+  • Where possible create utility functions instead.
+  
+ 
 
 
