@@ -1,0 +1,4 @@
+Standards
+=========
+
+General coding standards
