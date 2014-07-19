@@ -1,4 +1,33 @@
 
+> Hoisting :
+  • JavaScript enables you to have multiple var statements anywhere in a function, and they all act as if the variables were declared at the top of the function. 
+ myname = "global"; // global variable 
+ function func() {
+   alert(myname); // "undefined"
+   var myname; // same as -> var myname = undefined;
+   alert(myname); // "undefined"
+   myname = "local";
+   alert(myname); // "local" 
+ }
+ func();
+ 
+>Single "var" pattern
+
+ Using a single var statement at the top of your functions is a useful pattern to adopt. It has the following benefits:
+  • Provides a single place to look for all the local variables needed by the function
+  • Prevents logical errors when a variable is used before it’s defined
+  • Helps you remember to declare variables and therefore minimize globals
+  • Is less code (to type and to transfer over the wire)   
+ function func() { 
+   var a = 1,
+       b = 2, 
+       sum = a + b, 
+       myobject = {}, 
+       i, 
+       j;
+   // function body...
+ }
+  • You use one var statement and declare multiple variables delimited by commas. It’s a good practice to also initialize the variable with an initial value at the time you declare it. 
  > Do not forget about the importance of capitals in JavaScript! The word function must be written in lowercase letters, otherwise a JavaScript error occurs! Also note that you must call a function with the exact same capitals as in the function name.
 
  > If you declare a variable within a function, the variable can only be accessed within that function. When you exit the function, the variable is destroyed. These variables are called local variables. You can have local variables with the same name in different functions, because each is recognized only by the function in which it is declared.
