@@ -159,7 +159,8 @@
   # setTimeout, setInterval
   • Only pass in functions to setTimeout and setInterval. Do not use strings as these are eval’d.
   
-  # parseInt
+  # Number Conversions with parseInt()
+  • Using parseInt() you can get a numeric value from a string.
   • Supply a base when using parseInt. This ensures there are no unexpected conversion errors. Without a base of 10, strings prefixed with 0x will be treated as hex and those with a leading 0 treated as octal
    i.e. parseInt("0112") would result in 74.
   e.g.
@@ -288,3 +289,12 @@
 	});
 	
 	</script>
+ > Naming convention or Separating Words
+ 
+  • When you have multiple words in a variable or a function name, it’s a good idea to follow a convention as to how 
+  the words will be separated. A common convention is to use the so-called camel case.  
+
+  • For your constructors, you can use upper camel case, as in MyConstructor().
+  • For function and method names, you can use lower camel case, as in myFunction(), calculateArea() and getFirstName().
+  • For variables that are not functions? Developers commonly use lower camel case for variable names, but another good idea is to use all lowercase words delimited by an underscore.
+    example - first_name, favorite_bands, and old_company_name.  
