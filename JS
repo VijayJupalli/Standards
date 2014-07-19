@@ -168,3 +168,37 @@
 		}
 	}
    </script>
+   
+   > Function Declarations
+   
+   	/* Title: Function Declarations
+	 * Description: creating anonymous functions and assigning them to a variable
+	 */
+	// antipattern - named function
+	function getData() { 	}
+	
+	// preferred
+	/* Benefits:
+	 * 1. Makes it easier to understand "functions as an object".
+	 * 2. It enforces good semicolon habits.
+	 * 3. Doesn't have much of the baggage traditionally associated with functions and scope.
+	 */
+	var getData = function () {	};
+	
+	// named function expression
+	/* Benefits:
+	 * 1. Provides the debugger with an explicit function name: helps stack inspection.
+	 * 2. Allows recursive functions: getData can call itself.
+	 * Issues:
+	 * 1. Can break in IE - function name collision 
+	 */
+	var getData = function getData () {	};
+	
+	// named function expression + 'F'
+	/* Benefits:
+	 * 1. Get's rid of (anonymous function) in stack traces
+	 * 2. Recurse by calling the name + 'F'
+	 * 3. Doesn't break an IE 
+	 */
+	var getData = function getDataF () {	};
+
