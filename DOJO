@@ -1,0 +1,245 @@
+Dojo 
+Dojo is a collection of javaScript utilities providing solutions for a vast array of problems faced by the professional javaScript developer. 
+Dojo Base is the foundation of the Dojo Toolkit and functionality such as DOM and AJAX convenience methods, animations, and other base functionality suitable for building simple Web sites. 
+The base functionality of the Dojo Toolkit is provided by just including dojo.js. This includes tons of features like CSS-based queries, event handling, animations, Ajax, class-based programming, and a package system that makes getting access to the rest of Dojo a snap. 
+Dojo Core is a larger set of components built upon Dojo Base and includes things such as drag and drop, l10n and i18n components, and data stores. 
+Dijit is a complete widget system, providing all core UI components and utilities, and DojoX is a collection of advanced components, including data grids, low-level graphics libraries, mobile components, and other experimental software. Finally, the Utilities section provides extensive information about the Dojo Build system, Dojo Module Loader, and a variety of other Dojo-related utilities. 
+
+DOJO BASE: 
+
+CSS-based queries: dojo.query() returns a list of DOM nodes based on a CSS selector. To select HTML elements in JavaScript?, you can use the browsers native DOM API, but they are verbose and hard to work with...not to mention slow. For example, retrieving all nodes with the class progressIndicator  uses this code: 
+// list every node with the class "progressIndicator":
+var list = [];
+var nodes = document.getElementsByTagName("*");
+// iterate over every node in the document....SLOOOW
+for(var x = 0; x < nodes.length; x++){
+// only nodes with the class "progressIndicator":
+if(nodes[x].className == "progressIndicator"){
+// add to array:
+list.push(nodes[x]);
+}
+}
+console.dir(list); 
+Better and faster: dojo.query 
+dojo.query gives us a more compact way to do it, and its often faster, particularly as we ask for more sophisticated kinds of relationships. The following is exactly equivalent to our first example: 
+console.dir( dojo.query(".progressIndicator") ); 
+dojo.query('.dijitPopup dijitTooltipDialogPopup').style("visibility", "visible"); 
+dojo.query allows the flexibility of accessing the components dynamically. 
+EXAMPLES: 
+// all <h3> elements
+dojo.query('h3')
+// all <h3> elements which are first-child of their parent node
+dojo.query('h3:first-child')
+// a node with id="main"
+dojo.query('#main')
+// all <h3> elements within a node with id="main"
+dojo.query('#main h3')
+// a <div> with an id="main"
+dojo.query('div#main')
+// all <h3> elements within a div with id="main"
+dojo.query('div#main h3')
+// all <h3> elements that are immediate children of a <div>, within node with id="main"
+dojo.query('#main div > h3')
+// all nodes with
+dojo.query('.foo')
+// all nodes with classes "foo" and "bar"
+dojo.query('.foo.bar')
+// all <h3> elements that are immediate children of a node with id="main"
+dojo.query('#main > h3') 
+
+EVENT HANDLING: 
+Dojo’s event system offers a refreshing alternative to the normal JavaScript? events. With Dojo, you connect functions to one another, creating a link that calls one function when another fires.
+This means that you can connect a function of your own to:
+a DOM event, such as when a link is clicked
+an event of an object, such as an animation starting or stopping;
+a function call of your own, such as bar(); 
+bad practice:
+<a onclick="startAnimateFn()">click to animate</a> 
+good practice:
+var link = document.createElement('a');
+link.setAttribute("name","click to animate");
+dojo.connect(link, "onclick", this, this._startAnimateFn); 
+AJAX REQUEST: 
+dojo.xhrGet: xhrGet will create an Ajax request using the HTTP GET method, returning some data to a callback. The callback is defined as a member of the object used to create the request (the property-bag), or by using the dojo.Deferred.then() method. 
+dojo.xhrPost: xhrPost will create an Ajax request using the HTTP POST method and is usually used to submit data to a service. It returns data to a callback. The callback is defined as a member of the object used to create the request (the property-bag), or by using the dojo.Deferred.then() method. 
+dojo.xhrPut: xhrPut will create an Ajax request using the HTTP PUT method and is usually used to submit data to a service. It returns data to a callback. The callback is defined as a member of the object used to create the request (the property-bag), or by using the dojo.Deferred.then() method. 
+dojo.xhrDelete: xhrDelete will create an Ajax request using the HTTP DELETE method, which is commonly used to signal to a service to delete a resource at a URI. Data returned is done via the form of a callback. The callback is defined as a member of the object used to create the request (the property-bag), or by using the dojo.Deferred.then() method. 
+DIJIT: 
+Dijit is a widget system layered on top of Dojo. 
+Dojo widgets are components â€” comprising JavaScript code, HTML markup, and CSS style declarations â€” that provide cross-browser, interactive features: 
+dijit._Widget 
+dijit._Widget is the base class for all widgets in dijit, and in general is the base class for all dojo based widgets. Usually widgets also extend other mixins such as dijit._Templated. 
+All widgets are created by calling dojo.declare(), extending from _Widget: 
+<script type="text/javascript">
+dojo.declare("MyWidget", [dijit._Widget], { ... });
+</script>
+and then redefining a number of methods for the widget lifecycle... 
+WIDGET LIFE CYCLE: 
+The lifecycle of a widget decribes the phases of its creation and destruction which you can hook into. It's useful to understand exactly what happens when. Whether you are sub-classing an existing widget, using dojo/method script blocks, or passing in method overrides to the constructor, these are your entry points for making a widget do what you want it to do. 
+Widgets are classes, created with dojo.declare. All widgets inherit from dijit._Widget, and most get the _Templated mixin. That provides you the following extension points (methods) you can override and provide implementation for: 
+constructor
+Your constructor method will be called before the parameters are mixed into the widget, and can be used to initialize arrays, etc. (for demo look at the demo1.js in the attachement) 
+parameters are mixed into the widget instance
+This is when attributes in the markup (ex: <button iconClass=...>) are mixed in or, if you are instantiating directly, the properties object you passed into the constructor (ex: new dijit.form.Button({label: "hi"})). This step itself is not overridable, but you can play with the result in... 
+postMixInProperties
+If you provide a postMixInProperties method for your widget, it will be invoked before rendering occurs, and before any dom nodes are created. If you need to add or change the instance's properties before the widget is rendered - this is the place to do it. 
+buildRendering
+dijit._Templated provides an implementation of buildRendering that most times will do what you need. The template is fetched/read, nodes created and events hooked up during buildRendering. The end result is assigned to this.domNode. If you don't mixin dijit._Templated (and most OOTB dijits do) and want to handle rendering yourself (e.g. to really streamline a simple widget, or even use a different templating system) this is where you'd do it. 
+setters are called
+All attributes listed in attributeMap are applied to the DOM, and attributes for which there are custom setters (see attributes, those custom setters are called (for demo look at the demo2.js in the attachement) 
+postCreate
+This is typically the workhorse of a custom widget. The widget has been rendered (but note that sub-widgets in the containerNode have not!) 
+startup
+If you need to be sure parsing and creation of any child widgets has completed, use startup. This is often used for layout widgets like BorderContainer?. 
+destroy
+Implement destroy if you have special tear-down work to do (the superclasses will take care of most of it for you. 
+this.inherited() 
+In all cases its good practice to assume that you are overriding a method that may do something important in a class up the inheritance chain. So, call this.inherited() before or after your own code. E.g. 
+postCreate: function() {
+// do my stuff, then...
+this.inherited(arguments);
+} 
+Attributes 
+Perhaps the most important feature of _Widget is the ability to set attributes at widget initialization, or to change their valuse later on in the widget's lifecycle.
+dijit._Widget implements the attr() method to do this. For example, this call will set a DateTextBox?'s value to the current date: 
+
+myDateTextBox.attr('value', new Date())
+This call will tell us if a TitlePane? is opened or closed:
+myTitlePane.attr('open') 
+attr() makes use of:
+the attributeMap
+custom setters/getters 
+(for demo look at the demo3.js in the attachement)
+The attributeMap specifies a mapping of widget attributes into the DOM tree for the widget. 
+The custom setters/getters can perform any needed operation for setting/resetting a value. They are used when attributeMap won't do the job. 
+dijit._Templated 
+dijit._Templated is a mixin for most widgets in dijit. It takes an HTML template, and creates the widgetâ€™s DOM tree according to that template. In other words, it implements buildRendering() for you. 
+Mixin dijit._Templated when you declare your widget: 
+<script type="text/javascript">
+dojo.declare("MyWidget", [dijit._Widget, dijit._Templated], { ... });
+</script> 
+The template is specified in the widget attribute templatePath or templateString, and points to some HTML w/a single root node, with special attributes on the nodes, plus possibly substitution variables, etc.
+The tags in the template can have these special attributes, in addition to typical attributes like class:
+dojoAttachPoint
+dojoAttachEvent
+waiRole
+waiState 
+dojoAttachPoint 
+In the JavaScript? of a widget, you often might wish to refer to some of its html template's dom nodes directly. In this case the widget will need to access the <span> with the count in order to change the value.
+You might think the widget author could just use ids in the html template, and then dojo.byId() in the widget's js. But if she does, then if two or more widget instances are created, they'll all have the same ids! Obviously code will blow up then.
+Instead, you the widget author do the following:
+1.In your widget template's html, for every node that these variables are supposed to correspond to (eg point to), you add the attribute: dojoAttachPoint="yourVariableNameHere".
+2.In your widget's js, you use (without declaring them) variables for these nodes. In this case you will access this.counter.
+The reason the variables are undeclared is that when the code in _Templated scans the html in step 1, and it finds the variables in the dojoAttachPoint attribute, it adds those variables to your widget class, dynamically. 
+dojoAttachEvent 
+dojoAttachEvent will automatically setup a connection from an event on the DOM node (onclick in this case) to call a method in the widget (in this case increment(). (for demo look at the demo4.js in the attachement) 
+Substitution variables
+A template can also reference substitution variables like ${title}. ${title} references the title attribute of the widget.
+However, this is not recommended, as (due to implementation details) it only handles setting of the title on widget instantiation. In other words, myWidget.attr('title', 'My new title') won't work if you use substitution variables. 
+Widgets inside the Template 
+So what if we want the widget to have a widget inside of the template, as in ...:
+<div>
+<div dojoType="dijit.form.DateTextBox"></div>
+<div dojoType="dijit.form.TimeTextBox"></div>
+</div>
+When using this template in a directly extended widget class, you will need to set the property widgetsInTemplate: true. Why? Because a widget inside a template requires some recursive parsing, which may be slow if you're drawing thousands of widgets ... especially if there is nothing extra to parse. Therefore, it is false by default.
+dijit.Declaration-based widget classes automatically set widgetsInTemplate to true. 
+Common mistakes: 
+Never Miss Semicolons 
+This is one of the programming bugs that can consume hours of debugging. We have spent hours looking for problems in FMS code when the reason was the missing semicolon. 
+EX: 
+badPractice: function(id){
+this.store.fetch({
+query: itemId, 
+onBegin: dojo.hitch(this,"_beforeFunction") //Semi colon missing
+onComplete : dojo.hitch(this, "_afterFunction") 
+})
+} 
+goodPractice: function(id){
+this.store.fetch({
+query: itemId, 
+onBegin: dojo.hitch(this,"_beforeFunction"),
+onComplete : dojo.hitch(this, "_afterFunction") //Last Statement need no semi colon
+})
+} 
+Keep DOM access to a minimum 
+Accessing the DOM in browsers is an expensive thing to do. The DOM is a very complex API and rendering in browsers can take up a lot of time. Provide the Static text (i18N text labels ) in the .html files only instead of in js files 
+Bad Practice:
+in html file
+<label for="headerText" id="headerTextLabel"></label>
+
+in js file
+this.headerTextLabel.innerHTML =this.questionResources["headerText_label"]; 
+Good practice
+in html file
+<label for="headerText" id="headerTextLabel">${questionResources.headerText_label}</label> 
+JavaScript is Case-Sensitive 
+
+Following two variables represent two completely different place holders: 
+01.var myVariable = "data"; 
+02.var myvariable = "more data"; 
+
+So, use good, consistent practices in the custom identifiers, to ensure that you donâ€™t accidentally declare two different variables when you actually meant to create just one. 
+Don’t Change a Variable’s Type After Initial Declaration 
+In JavaScript, technically, the following is perfectly legal:
+
+view plain?
+01.var my_variable = "This is a String"; 
+02.my_variable = 50; 
+After the variable initial declaration as a string on line 1, on line 2 its value is changed and its data type is also changed. This is not good practice and should be avoided. 
+Avoid JavaScript Keywords When Creating Custom Identifiers 
+Many words are reserved as keywords in JavaScript, so you should avoid using them as variable names or other custom identifiers.There are also JavaScript reserved words, which are not necessarily currently used in the language, but are reserved for future use as keywords. Those words are as follows: 
+The complete list of JavaScript keywords is as follows 
+break 	case 	catch 	continue 	default 
+delete 	do 	else 	finally 	for 
+function 	if 	in 	instanceof 	new 
+return 	switch 	this 	throw 	try 
+typeof 	var 	void 	while 	with 
+The complete list of JavaScript reserved keywords is as follows 
+abstract 	boolean 	byte 	char 	class 	const 
+debugger 	double 	enum 	export 	extends 	final 
+float 	goto 	implements 	import 	int 	interface 
+long 	native 	package 	private 	protected 	public 
+short 	static 	super 	synchronized 	throws 	transient 
+volatile 	  	  	  	  	  
+Avoid Using Global Variables 
+To prevent possible conflicts, in 99% of cases, use the var keyword when initially declaring variables and their values. This ensures that your variables are localized and are not accessible outside of the function in which they are declared. So, if you happen to use the same variable name in two different functions, there wonâ€™t be a conflict since each variable will be abolished the moment its function finishes executing. 
+Use the switch Statement to Handle Multiple Conditions 
+Bad Practice: 
+if (example_variable == "cyan") 
+{ 
+// do something here... 
+} else if (example_variable == "magenta") { 
+// do something here... 
+} else if (example_variable == "yellow") { 
+// do something here... 
+} else if (example_variable == "black") { 
+// do something here... 
+} else { 
+// do something here... 
+} 
+Good Practice: 
+switch (example_variable) { 
+case "cyan": // do something here... break; 
+case "magenta": // do something here... break; 
+case "yellow": // do something here... break; 
+case "black": // do something here... break; 
+default: // do something here... break; 
+} 
+The second block of code does the exact same thing as the first â€” but the second one is cleaner, easier to read, and easier to maintain and modify. 
+Make Multi-Line Comments Readable, But Simple 
+In JavaScript, you can comment a line of code by putting // at the beginning of the line. You can also comment out a block of code as shown here: /* [code goes here] /. Sometimes you'll need to include a longer, multi-line comment. A good method to use that is not too visually overwhelming, but is easy to spot in the code is as follows: 
+ /** 
+* This is a multi-line comment ... 
+ * cont'd... 
+ * cont'd... 
+ * cont'd... 
+ * cont'd... 
+ */ 
+Usage of data-dojo-props 
+data-dojo-props can be used to pass the arguments to the variable to the child widget from the parent widget 
+childWidget Widget has been called from the Parent widget along with a variable parentParameter. 
+<div data-dojo-type="finanztools.salesenablement.childWidget" data-dojo-attach-point="childWidget" data-dojo-props="parentParameter:'${parentParameterValue}'" /> 
+parentParameter can be access as this.parentParameter in the childWidget. 
+http://livedocs.dojotoolkit.org/developer/styleguide  
+
