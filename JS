@@ -202,3 +202,41 @@
 	 */
 	var getData = function getDataF () {	};
 
+ > Callback function:
+   <script>
+	/* Title: Callback patterns
+	 Description: when you pass function A to function B as a parameter, function A is a callback function
+	 */
+	
+	var complexLogic = function () { /* do some complex stuff and return a node */ };
+	
+	// callback paramter to findNodes
+	var findNodes = function (callback) {
+		var nodes = [];
+		var node = complexComputation();
+		// call if callback is callable
+		if (typeof callback === "function") {
+			//node - returned value of complexLogic
+			callback(node);
+		}
+	
+		nodes.push(node);
+		return nodes;
+	};
+	
+	// a callback function
+	var hide = function (node) {
+		node.style.display = "none"; 
+		// instead .style, use .className to update CSS
+	};
+	
+	// find the nodes and hide them as you go
+	var hiddenNodes = findNodes(hide);
+
+	// you can also use an anonymous function, like this: 
+	var showNodes = findNodes(function (node) {
+		node.style.display = 'block'; 
+		// instead .style, use .className to update CSS
+	});
+	
+	</script>
